@@ -13,13 +13,49 @@ links, tests contradictory real evidence, and checks every body's error. The
 addressed version explicitly needs event slots and writer channels. It does not
 discover those for itself.
 
-**Confirmation results pending.** The protocol and executable success rules are
-published first. Development already shows that a median amplitude near the
-right answer can conceal large relay errors, and faithful relay alone does not
-repair weak learning.
+**Built and tested: the addressed relay works in all 96 bodies. The complete
+machine does not pass every registered accuracy test.** It preserves what it
+learned through two imagined steps, but still learns biased amplitudes and
+imperfect wave shapes. Ordinary scalar regression is more accurate on this task.
 
 [Protocol](PROTOCOL.md) · [engine](astra/chain.py) · [experiment](experiments/body.py)
 · [analysis](experiments/analyze.py) · [provenance](SOURCES.md)
+
+[Full report](REPORT.md) · [raw receipts](results/confirm.json) ·
+[summary](results/confirm_summary.json) · [verification](results/verification.json)
+
+![Every confirmation body: learning, relay fidelity, and wave shape](results/overview.png)
+
+## What survived the test
+
+The protocol and executable tests were [published before the confirmation run](https://github.com/anttiluode/WaveComputerAstra/commit/ee928ed40d8c0668df7fc91b99d33a2af03343fc).
+Thirty-two bodies in each of three matched worlds, six relay designs, one fitted
+weight set per body. The full cohort took 439 seconds on this CPU environment.
+
+- **96/96 preserve their measured learned-link amplitudes**, with maximum relative
+  discrepancy below 1e-15. This is a verified consequence of the engineered linear
+  channels and supplied clocks, not a discovery of error-free general reasoning.
+- **96/96 need both intermediate relays:** cutting either removes the addressed D
+  output. Real contradictory B and real contradictory C each reverse D in 96/96.
+- Weakening A→B reduces D by a median factor **0.570**; weakening B→C gives **0.541**.
+  The exact factor is **0.571**. Both registered confidence-response tests pass.
+- All three worlds pass the relay, causal, and evidence-reversal rules. The
+  **strong world fails amplitude accuracy and full waveform accuracy**.
+
+| World | Exact D mean | Median wave D | Median absolute error | Scalar baseline error |
+|---|---:|---:|---:|---:|
+| Strong links | .343 | .478 | .135 | .023 |
+| Weaker first link | .196 | .276 | .080 | .030 |
+| Weaker middle link | .196 | .251 | .057 | .029 |
+
+Errors are medians of individual absolute errors, not absolute signed medians.
+Passing the weaker-world thresholds does not mean perfect calibration.
+
+**The useful insight:** signal strength and timing are not enough if a reader
+mistakes another branch's wave for its input. With the same weights, clocked
+mixed-field relay has median transfer errors of 21%, 25%, and 42%; addressed
+input/output selection removes that composition error in every tested body.
+The next problem is the learner and waveform fidelity, not simply another link.
 
 ## Run locally
 
@@ -29,12 +65,27 @@ Python 3.10+; CPU only. From the repository directory:
 python -m pip install -r requirements.txt
 python -m unittest discover -s tests -v
 python -m experiments.run --cohort smoke --workers 2
+python -m experiments.demo --seed 310001 --mode routed --probe cut_B
 ```
 
 The core runtime uses NumPy only. OpenCV is for checking the vendored nodes and
 rebuilding the wave kernel. A smoke run trains three bodies. The complete fixed
 cohort is `python -m experiments.run --cohort confirm --workers 2`.
 Existing receipts are never overwritten; use `--output results/new_run.json`.
+
+Open **[index.html](index.html)** directly in your browser for the offline results
+viewer. It shows recorded measurements, with selectors for body, world, relay,
+and causal intervention. To rerun a stored body and export actual wave traces:
+
+```sh
+python -m experiments.demo --seed 310001 --mode routed --output my_trace.csv
+python -m experiments.verify --retrain
+```
+
+Eight engine tests pass. The saved summary recomputes exactly, a fresh body
+retrain is identical, and six selected runs agree with the original grid node
+within 2.7e-7 relative error. Those checks did not reach the grid's clipping limit.
+Optional figure regeneration needs Matplotlib: `python -m experiments.figure`.
 
 ## Design
 

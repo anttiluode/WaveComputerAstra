@@ -1,0 +1,56 @@
+{
+  "hashes_match": true,
+  "summary_reproduces": true,
+  "complete_cohort": true,
+  "fresh_training_identical": true,
+  "field_replays": [
+    {
+      "world": "strong",
+      "seed": 310028,
+      "mode": "routed",
+      "max_relative_error": 2.6499867544897745e-07,
+      "peak_grid_field": 0.7672749757766724,
+      "peak_grid_velocity": 0.0919598639011383
+    },
+    {
+      "world": "strong",
+      "seed": 310028,
+      "mode": "certain",
+      "max_relative_error": 2.3257461389739594e-07,
+      "peak_grid_field": 0.8750882148742676,
+      "peak_grid_velocity": 0.10682836174964905
+    },
+    {
+      "world": "weak_first",
+      "seed": 310025,
+      "mode": "routed",
+      "max_relative_error": 2.1712146345856144e-07,
+      "peak_grid_field": 0.28114309906959534,
+      "peak_grid_velocity": 0.033564597368240356
+    },
+    {
+      "world": "weak_first",
+      "seed": 310025,
+      "mode": "certain",
+      "max_relative_error": 2.4060835016851507e-07,
+      "peak_grid_field": 0.5127435922622681,
+      "peak_grid_velocity": 0.0431225411593914
+    },
+    {
+      "world": "weak_middle",
+      "seed": 310004,
+      "mode": "routed",
+      "max_relative_error": 1.8009275027390691e-07,
+      "peak_grid_field": 0.5893681049346924,
+      "peak_grid_velocity": 0.07199247926473618
+    },
+    {
+      "world": "weak_middle",
+      "seed": 310004,
+      "mode": "certain",
+      "max_relative_error": 2.4785598979100644e-07,
+      "peak_grid_field": 0.6405777931213379,
+      "peak_grid_velocity": 0.09367810189723969
+    }
+  ]
+}
