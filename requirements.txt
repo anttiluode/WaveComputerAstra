@@ -1,0 +1,3 @@
+numpy>=1.24,<3
+# Needed only for the vendored-node equivalence tests and rebuilding the kernel.
+opencv-python-headless>=4.8,<6
